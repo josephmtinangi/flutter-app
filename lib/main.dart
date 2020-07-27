@@ -11,37 +11,33 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int index = 0;
-  String _value = 'red';
+  Color bulbColor = Colors.grey;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Filterchip'),
+          title: Text('Gesture Detector'),
         ),
-        body: Container(
-          height: 60.0,
-          width: 200.0,
-          padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 5.0),
-          child: DropdownButton(
-              isExpanded: true,
-              icon: Icon(Icons.add),
-              underline: SizedBox(),
-              value: _value,
-              items: <String>['red', 'blue', 'green']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (newValue) {
-                print(newValue);
-                setState(() {
-                  _value = newValue;
-                });
-              }),
+        body: Center(
+          child: GestureDetector(
+            onTap: () {
+              setState(() {
+                bulbColor = Colors.red;
+              });
+            },
+            onDoubleTap: () {
+              setState(() {
+                bulbColor = Colors.grey;
+              });
+            },
+            child: Icon(
+              Icons.lightbulb_outline,
+              size: 100.0,
+              color: bulbColor,
+            ),
+          ),
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
