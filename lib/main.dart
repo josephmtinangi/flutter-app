@@ -1,65 +1,45 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyHomePage());
+void main() => runApp(SnackBarDemo());
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key}) : super(key: key);
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int index = 0;
-  Color bulbColor = Colors.grey;
-
+class SnackBarDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'SnackBar Demo',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Gesture Detector'),
+          title: Text('SnackBar Demo'),
         ),
-        body: Center(
-          child: GestureDetector(
-            onTap: () {
-              setState(() {
-                bulbColor = Colors.red;
-              });
-            },
-            onDoubleTap: () {
-              setState(() {
-                bulbColor = Colors.grey;
-              });
-            },
-            child: Icon(
-              Icons.lightbulb_outline,
-              size: 100.0,
-              color: bulbColor,
-            ),
-          ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: Colors.green,
-          backgroundColor: Colors.white,
-          currentIndex: index,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home), title: Text('Home')),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.network_wifi), title: Text('Feed')),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.settings), title: Text('Settings'))
-          ],
-          onTap: (int selectedIndex) {
-            setState(() {
-              index = selectedIndex;
-            });
-          },
-        ),
+        body: SnackBarPage(),
       ),
       debugShowCheckedModeBanner: false,
+    );
+  }
+}
+
+class SnackBarPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: RaisedButton(
+        onPressed: () {
+          final snackBar = SnackBar(
+            content: Text('Yay! A SnackBar!'),
+            action: SnackBarAction(
+              label: 'Undo',
+              onPressed: () {
+                // Some code to undo the change.
+              },
+            ),
+          );
+
+          // Find the Scaffold in the widget tree and use
+          // it to show a SnackBar.
+          Scaffold.of(context).showSnackBar(snackBar);
+        },
+        child: Text('Show SnackBar'),
+      ),
     );
   }
 }
