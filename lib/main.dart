@@ -10,39 +10,35 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<String> myList = [
-    'One',
-    'Two',
-    'Three',
-    'Four',
-    'Five',
-    'Six',
-    'Seven',
-    'Eight',
-    'Nine',
-    'Ten'
-  ];
+  int index = 0;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('ListView Builder'),
+          title: Text('Bottom Navigation'),
         ),
-        body: ListView.builder(
-            padding: EdgeInsets.all(10.0),
-            reverse: false,
-            scrollDirection: Axis.vertical,
-            itemCount: myList.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                height: 100.0,
-                child: Center(
-                  child: Text(myList[index]),
-                ),
-              );
-            }),
+        body: Container(),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Colors.green,
+          backgroundColor: Colors.white,
+          currentIndex: index,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home), title: Text('Home')),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.network_wifi), title: Text('Feed')),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.settings), title: Text('Settings'))
+          ],
+          onTap: (int selectedIndex) {
+            setState(() {
+              index = selectedIndex;
+            });
+          },
+        ),
       ),
       debugShowCheckedModeBanner: false,
     );
