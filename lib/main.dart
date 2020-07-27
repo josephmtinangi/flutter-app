@@ -11,15 +11,61 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int index = 0;
+  bool isRedSelected = false;
+  bool isBlueSelected = false;
+  bool isPinkSelected = false;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Bottom Navigation'),
+          title: Text('Filterchip'),
         ),
-        body: Container(),
+        body: Wrap(
+          spacing: 5.0,
+          children: <Widget>[
+            FilterChip(
+              checkmarkColor: Colors.white,
+              selected: isRedSelected,
+              selectedColor: Colors.purple,
+              backgroundColor: Colors.grey,
+              labelStyle: TextStyle(color: Colors.white),
+              label: Text('red'),
+              onSelected: (value) {
+                setState(() {
+                  isRedSelected = value;
+                });
+              },
+            ),
+            FilterChip(
+              checkmarkColor: Colors.white,
+              selected: isBlueSelected,
+              selectedColor: Colors.blue,
+              backgroundColor: Colors.grey,
+              labelStyle: TextStyle(color: Colors.white),
+              label: Text('blue'),
+              onSelected: (value) {
+                setState(() {
+                  isBlueSelected = value;
+                });
+              },
+            ),
+            FilterChip(
+              checkmarkColor: Colors.white,
+              selected: isPinkSelected,
+              selectedColor: Colors.pink,
+              backgroundColor: Colors.grey,
+              labelStyle: TextStyle(color: Colors.white),
+              label: Text('pink'),
+              onSelected: (value) {
+                setState(() {
+                  isPinkSelected = value;
+                });
+              },
+            )
+          ],
+        ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           selectedItemColor: Colors.green,
