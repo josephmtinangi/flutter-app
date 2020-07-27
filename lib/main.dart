@@ -11,9 +11,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int index = 0;
-  bool isRedSelected = false;
-  bool isBlueSelected = false;
-  bool isPinkSelected = false;
+  String _value = 'red';
 
   @override
   Widget build(BuildContext context) {
@@ -22,49 +20,28 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           title: Text('Filterchip'),
         ),
-        body: Wrap(
-          spacing: 5.0,
-          children: <Widget>[
-            FilterChip(
-              checkmarkColor: Colors.white,
-              selected: isRedSelected,
-              selectedColor: Colors.purple,
-              backgroundColor: Colors.grey,
-              labelStyle: TextStyle(color: Colors.white),
-              label: Text('red'),
-              onSelected: (value) {
+        body: Container(
+          height: 60.0,
+          width: 200.0,
+          padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 5.0),
+          child: DropdownButton(
+              isExpanded: true,
+              icon: Icon(Icons.add),
+              underline: SizedBox(),
+              value: _value,
+              items: <String>['red', 'blue', 'green']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: (newValue) {
+                print(newValue);
                 setState(() {
-                  isRedSelected = value;
+                  _value = newValue;
                 });
-              },
-            ),
-            FilterChip(
-              checkmarkColor: Colors.white,
-              selected: isBlueSelected,
-              selectedColor: Colors.blue,
-              backgroundColor: Colors.grey,
-              labelStyle: TextStyle(color: Colors.white),
-              label: Text('blue'),
-              onSelected: (value) {
-                setState(() {
-                  isBlueSelected = value;
-                });
-              },
-            ),
-            FilterChip(
-              checkmarkColor: Colors.white,
-              selected: isPinkSelected,
-              selectedColor: Colors.pink,
-              backgroundColor: Colors.grey,
-              labelStyle: TextStyle(color: Colors.white),
-              label: Text('pink'),
-              onSelected: (value) {
-                setState(() {
-                  isPinkSelected = value;
-                });
-              },
-            )
-          ],
+              }),
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
