@@ -8,21 +8,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class MyHomePageState extends State<MyHomePage> {
-  // hold the future
-  Future<bool> completed;
-
-  // hold the data
-  String _receivedData;
-
-  @override
-  void initState() {
-    print('initState');
-
-    super.initState();
-
-    completed = loadData();
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -31,28 +16,34 @@ class MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           title: Text('Future Builder'),
         ),
-        body: Center(
-            child: FutureBuilder(
-                future: completed,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(_receivedData);
-                  } else {
-                    return CircularProgressIndicator();
-                  }
-                })),
+        body: Scaffold(
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          bottomNavigationBar: BottomAppBar(
+            shape: CircularNotchedRectangle(),
+            color: Colors.deepPurple,
+            child: Row(
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.menu),
+                  onPressed: () {},
+                  color: Colors.white,
+                ),
+                IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {},
+                  color: Colors.white,
+                )
+              ],
+            ),
+          ),
+          body: Container(),
+        ),
       ),
       debugShowCheckedModeBanner: false,
     );
-  }
-
-  Future<bool> loadData() async {
-    print('Start');
-    // dummy loading
-    // creates delay of 3 seconds
-    await Future.delayed(Duration(seconds: 5));
-    _receivedData = 'Data Received';
-    print('Done');
-    return true;
   }
 }
