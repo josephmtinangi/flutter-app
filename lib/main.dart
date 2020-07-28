@@ -1,45 +1,69 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-void main() => runApp(SnackBarDemo());
+void main() => runApp(MyHomePage());
 
-class SnackBarDemo extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  @override
+  MyHomePageState createState() => MyHomePageState();
+}
+
+class MyHomePageState extends State<MyHomePage> {
+  String _title = 'My todo';
+  String _subtitle = 'Subtitle';
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'SnackBar Demo',
+      title: 'Flutter',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('SnackBar Demo'),
+          title: Text('API Request'),
         ),
-        body: SnackBarPage(),
+        body: Column(
+          children: <Widget>[
+            ListTile(
+              title: Text(_title),
+              subtitle: Text('completed: $_subtitle'),
+            ),
+            RaisedButton(
+              child: Text(
+                'Get Data',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                makeRequest();
+              },
+              color: Colors.red,
+            )
+          ],
+        ),
       ),
       debugShowCheckedModeBanner: false,
     );
   }
-}
 
-class SnackBarPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: RaisedButton(
-        onPressed: () {
-          final snackBar = SnackBar(
-            content: Text('Yay! A SnackBar!'),
-            action: SnackBarAction(
-              label: 'Undo',
-              onPressed: () {
-                // Some code to undo the change.
-              },
-            ),
-          );
+  void makeRequest() async {
+    String _url = 'https://jsonplaceholder.typicode.com/todos';
+    print('url');
+    print(_url);
 
-          // Find the Scaffold in the widget tree and use
-          // it to show a SnackBar.
-          Scaffold.of(context).showSnackBar(snackBar);
-        },
-        child: Text('Show SnackBar'),
-      ),
-    );
+    var response = await http.get(_url);
+    print('response');
+    print(response);
+    String dataAsString = response.body;
+    print('dataAsString');
+    print(dataAsString);
+    List decodedData = json.decode(dataAsString);
+    print('decodedData');
+    print(decodedData);
+
+    Map<String, dynamic> firstToDo = decodedData[0];
+
+    setState(() {
+      _title = firstToDo['title'];
+      _subtitle = firstToDo['completed'].toString();
+    });
   }
 }
