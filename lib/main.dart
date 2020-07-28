@@ -8,7 +8,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class MyHomePageState extends State<MyHomePage> {
-  double _progress = 0.0;
+  int _selected = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -16,52 +16,53 @@ class MyHomePageState extends State<MyHomePage> {
       title: 'Flutter',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Linear Progress Indicator'),
+          title: Text('Navigation Drawer'),
         ),
-        body: Scaffold(
-          floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add),
-            onPressed: () {
-              setState(() {
-                _progress = 0.2;
-              });
-            },
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          bottomNavigationBar: BottomAppBar(
-            shape: CircularNotchedRectangle(),
-            color: Colors.deepPurple,
-            child: Row(
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.menu),
-                  onPressed: () {},
-                  color: Colors.white,
-                ),
-                IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {},
-                  color: Colors.white,
-                )
-              ],
-            ),
-          ),
-          body: Column(
+        drawer: Drawer(
+          child: ListView(
             children: <Widget>[
-              LinearProgressIndicator(
-                value: _progress,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  Color.lerp(Colors.yellow, Colors.pink, _progress),
+              DrawerHeader(
+                decoration: BoxDecoration(color: Colors.blue),
+                child: Column(
+                  children: <Widget>[Text('Company')],
                 ),
-                backgroundColor: Colors.white,
               ),
-              Text((_progress * 100).toStringAsFixed(0) + '%')
+              ListTile(
+                selected: _selected == 0,
+                leading: Icon(Icons.folder),
+                title: Text('My Files'),
+                onTap: () {
+                  changeSelection(0);
+                },
+              ),
+              ListTile(
+                selected: _selected == 1,
+                leading: Icon(Icons.share),
+                title: Text('Share'),
+                onTap: () {
+                  changeSelection(1);
+                },
+              ),
+              ListTile(
+                selected: _selected == 2,
+                leading: Icon(Icons.settings),
+                title: Text('Settings'),
+                onTap: () {
+                  changeSelection(2);
+                },
+              )
             ],
           ),
         ),
+        body: Container(),
       ),
       debugShowCheckedModeBanner: false,
     );
+  }
+
+  void changeSelection(int index) {
+    setState(() {
+      _selected = index;
+    });
   }
 }
