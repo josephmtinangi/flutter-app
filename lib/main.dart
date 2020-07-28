@@ -8,17 +8,24 @@ class MyHomePage extends StatefulWidget {
 }
 
 class MyHomePageState extends State<MyHomePage> {
+  double _progress = 0.0;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Future Builder'),
+          title: Text('Linear Progress Indicator'),
         ),
         body: Scaffold(
           floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
+            onPressed: () {
+              setState(() {
+                _progress = 0.2;
+              });
+            },
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
@@ -40,7 +47,18 @@ class MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
-          body: Container(),
+          body: Column(
+            children: <Widget>[
+              LinearProgressIndicator(
+                value: _progress,
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  Color.lerp(Colors.yellow, Colors.pink, _progress),
+                ),
+                backgroundColor: Colors.white,
+              ),
+              Text((_progress * 100).toStringAsFixed(0) + '%')
+            ],
+          ),
         ),
       ),
       debugShowCheckedModeBanner: false,
