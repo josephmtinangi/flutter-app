@@ -12,22 +12,23 @@ class MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Gradient'),
-        ),
-        body: Center(
-          child: Container(
-            height: 120.0,
-            width: 200.0,
-            decoration: BoxDecoration(
-                gradient: RadialGradient(
-                    colors: [Colors.lightBlue, Colors.blue],
-                    center: Alignment.center,
-                    radius: 1.0)),
-          ),
-        ),
-      ),
+      home: DefaultTabController(
+          length: 3,
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text('My TabBar'),
+              bottom: TabBar(tabs: <Widget>[
+                Tab(text: 'Yellow'),
+                Tab(text: 'Orange'),
+                Tab(text: 'Red')
+              ]),
+            ),
+            body: TabBarView(children: <Widget>[
+              Container(color: Colors.yellow),
+              Container(color: Colors.orange),
+              Container(color: Colors.red)
+            ]),
+          )),
       debugShowCheckedModeBanner: false,
     );
   }
